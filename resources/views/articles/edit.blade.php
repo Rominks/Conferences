@@ -11,15 +11,15 @@
             <input type="hidden" name="article_id" value="{{ $article->id }}">
             <div class="form-group">
                 <label for="title">Title</label>
-                <input type="text" class="form-control" id="title" name="title" value="{{ $article->title }}">
+                <input type="text" class="form-control" id="title" name="title" value="{{ optional($article ?? null)->title }}">
             </div>
             <div class="form-group">
                 <label for="description">Description</label>
-                <input type="text" class="form-control" id="description" name="description" value="{{ $article->description }}">
+                <input type="text" class="form-control" id="description" name="description" value="{{ optional($article ?? null)->description }}">
             </div>
             <div class="form-group">
                 <label for="content">Content</label>
-                <textarea class="form-control" id="content" name="content">{{ $article->content }}</textarea>
+                <textarea class="form-control" id="content" name="content">{{ optional($article ?? null)->content }}</textarea>
             </div>
             <div class="form-footer">
                 <button type="button" id="edit-close-btn" class="btn btn-secondary">Close</button>

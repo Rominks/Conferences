@@ -20,15 +20,18 @@ use App\Http\Controllers\HomeController;
 Route::get('/{locale?}', [HomeController::class, 'index'])->name("home.index");
 
 Route::get('/', static function () {
-   return redirect('/en');
+    return redirect('/en');
 });
 
-Route::prefix('/articles')->name('articles')->group(static function () {
+Route::prefix('/articles')->group(static function () {
     Route::get('/{locale?}', [ArticleController::class, 'index'])->name('articles.index');
     Route::get('/view/{id}/{locale?}', [ArticleController::class, 'view'])->name('articles.view');
     Route::get('/edit/{articleId}/{locale?}', [ArticleController::class, 'edit'])->name('articles.edit');
     Route::get('/list/{locale?}', [ArticleController::class, 'listArticles'])->name('articles.list');
+    Route::get('/create/{locale?}', [ArticleController::class, 'create'])->name('articles.create');
     Route::put('/update/{id}', [ArticleController::class, 'update'])->name('articles.update');
+    Route::delete('/delete/{id}', [ArticleController::class, 'delete'])->name('articles.delete');
+    Route::post('/submit', [ArticleController::class, 'submit'])->name('articles.submit');
     Route::redirect('/view', '/articles/all');
     Route::redirect('', '/articles/all/{locale}');
 });

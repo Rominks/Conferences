@@ -6,6 +6,7 @@
     <h1 class="page-header">{{ __('app.home_module.cms_title') }}</h1>
 
     <div class="article-container">
+        <a href="/articles/create/{{$locale}}" class="btn btn-primary create-btn">Create</a>
         <table class="article-table">
             <thead>
             <tr>

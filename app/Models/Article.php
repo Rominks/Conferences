@@ -9,6 +9,9 @@ class Article extends Model
 {
     use HasFactory;
 
+//    public mixed $title;
+//    public mixed $description;
+//    public mixed $content;
     protected $fillable = [
         'title',
         'description',

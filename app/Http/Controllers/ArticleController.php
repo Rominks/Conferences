@@ -38,7 +38,26 @@ class ArticleController extends Controller
         return view('articles.create');
     }
 
-    public function edit(int $articleId, string $locale=null)
+    public function submit(Request $request): RedirectResponse
+    {
+        $article = new Article();
+
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string|max:255',
+            'content' => 'nullable|string'
+        ]);
+
+        $article->fill($request->input());
+
+        $article->save();
+
+        $request->session()->flash('status', 'Article was created');
+
+        return redirect()->route('articles.list', App::getLocale())->with('success', 'Article created successfully');
+    }
+
+    public function edit(int $articleId, string $locale = null): View
     {
         $this->validateLocale($locale);
         $article = Article::findOrFail($articleId);
@@ -48,7 +67,8 @@ class ArticleController extends Controller
         ]);
     }
 
-    public function update(Request $request, int $articleId): RedirectResponse {
+    public function update(Request $request, int $articleId): RedirectResponse
+    {
         $article = Article::findOrFail($articleId);
 
         $request->validate([
@@ -64,15 +84,14 @@ class ArticleController extends Controller
             'updated_at' => now()
         ]);
 
-        return redirect()->route('articlesarticles.list', ['locale' => 'en'])->with('success', 'Article updated successfully.');
+        return redirect()->route('articles.list', ['locale' => 'en'])->with('success', 'Article updated successfully.');
     }
 
-    public function delete(int $articleId): View
+    public function delete(int $articleId): RedirectResponse
     {
-        $article = Article::findOrFail($articleId);
-        $article->delete();
+        Article::destroy($articleId);
 
-        return view('articles.delete');
+        return redirect()->route('articles.list', ['locale' => App::getLocale()])->with('success', 'Article deleted successfully.');
     }
 
     public function listArticles(string $locale = null): View
