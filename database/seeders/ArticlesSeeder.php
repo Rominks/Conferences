@@ -15,17 +15,23 @@ class ArticlesSeeder extends Seeder
     public function run(): void
     {
         (new Article())->insert([
-           [
-               'title' => Lorem::sentence(3),
-               'content' => Lorem::sentence(20)
-           ],
-           [
-               'title' => Lorem::sentence(5),
-               'content' => Lorem::sentence(15)
-           ],
             [
-                'title' => Lorem::sentence(2),
-                'content' => Lorem::sentence(10)
+                'title' => Lorem::sentence(3),
+                'content' => Lorem::sentence(20),
+                'created_at' => date('Y/m/d H:i:s', time()),
+                'updated_at' => date('Y/m/d H:i:s', time())
+            ],
+            [
+                'title' => Lorem::sentence(5),
+                'content' => Lorem::sentence(15),
+                'created_at' => date('Y/m/d H:i:s', time()),
+                'updated_at' => date('Y/m/d H:i:s', time())
+            ],
+            [
+                'title' => Lorem::sentence(7),
+                'content' => Lorem::sentence(20),
+                'created_at' => date('Y/m/d H:i:s', time()),
+                'updated_at' => date('Y/m/d H:i:s', time())
             ]
         ]);
     }
