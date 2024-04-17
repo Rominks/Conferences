@@ -26,8 +26,9 @@ Route::get('/', static function () {
 Route::prefix('/articles')->name('articles')->group(static function () {
     Route::get('/{locale?}', [ArticleController::class, 'index'])->name('articles.index');
     Route::get('/view/{id}/{locale?}', [ArticleController::class, 'view'])->name('articles.view');
-    Route::get('/edit/{articleId}', [ArticleController::class, 'edit'])->name('articles.edit');
-    Route::get('/edit/list/{locale?}', [ArticleController::class, 'listArticles'])->name('articles.list');
+    Route::get('/edit/{articleId}/{locale?}', [ArticleController::class, 'edit'])->name('articles.edit');
+    Route::get('/list/{locale?}', [ArticleController::class, 'listArticles'])->name('articles.list');
+    Route::put('/update/{id}', [ArticleController::class, 'update'])->name('articles.update');
     Route::redirect('/view', '/articles/all');
     Route::redirect('', '/articles/all/{locale}');
 });
