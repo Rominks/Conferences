@@ -6,6 +6,7 @@ use App\Models\Article;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 
 class ArticleController extends Controller
@@ -33,8 +34,9 @@ class ArticleController extends Controller
         ]);
     }
 
-    public function create(): View
+    public function create(string $locale = null): View
     {
+        $this->validateLocale($locale);
         return view('articles.create');
     }
 
@@ -44,8 +46,10 @@ class ArticleController extends Controller
 
         $request->validate([
             'title' => 'required|string|max:255',
-            'description' => 'nullable|string|max:255',
-            'content' => 'nullable|string'
+            'address' => 'required|string|max:255',
+            'attendance' => 'required|integer',
+            'content' => 'required|string',
+            'dateTime' => 'required|date'
         ]);
 
         $article->fill($request->input());
@@ -54,7 +58,7 @@ class ArticleController extends Controller
 
         $request->session()->flash('status', 'Article was created');
 
-        return redirect()->route('articles.list', App::getLocale())->with('success', 'Article created successfully');
+        return redirect()->route('articles.list', ['locale' => App::getLocale()])->with('success', 'Article created successfully');
     }
 
     public function edit(int $articleId, string $locale = null): View
@@ -67,14 +71,16 @@ class ArticleController extends Controller
         ]);
     }
 
-    public function update(Request $request, int $articleId): RedirectResponse
+    public function update(Request $request, int $articleId): void
     {
         $article = Article::findOrFail($articleId);
 
         $request->validate([
             'title' => 'required|string|max:255',
-            'description' => 'nullable|string|max:255',
-            'content' => 'nullable|string'
+            'address' => 'required|string|max:255',
+            'attendance' => 'required|integer',
+            'content' => 'required|string',
+            'dateTime' => 'required|date'
         ]);
 
         $article->update([
@@ -84,14 +90,16 @@ class ArticleController extends Controller
             'updated_at' => now()
         ]);
 
-        return redirect()->route('articles.list', ['locale' => 'en'])->with('success', 'Article updated successfully.');
+        Log::channel('daily')->info('Article:' . $articleId . " updated " . date('H:i:s', time()));
+
+//        return redirect()->route('articles.edit', ['locale' => App::getLocale(), 'articleId' => $articleId])->with('success', 'Article updated successfully.');
     }
 
-    public function delete(int $articleId): RedirectResponse
+    public function delete(Request $request): void
     {
-        Article::destroy($articleId);
+        Article::destroy($request->input('id'));
 
-        return redirect()->route('articles.list', ['locale' => App::getLocale()])->with('success', 'Article deleted successfully.');
+//        return redirect()->route('articles.list', ['locale' => App::getLocale()])->with('success', 'Article deleted successfully.');
     }
 
     public function listArticles(string $locale = null): View
@@ -103,13 +111,5 @@ class ArticleController extends Controller
             'locale' => $locale,
             'articles' => $articles
         ]);
-    }
-
-    private function validateLocale(string $locale = null): void
-    {
-        if ($locale !== null && !in_array($locale, ['en', 'lt'])) {
-            abort(403);
-        }
-        $locale !== null ? App::setLocale($locale) : App::setLocale('en');
     }
 }

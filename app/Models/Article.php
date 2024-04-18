@@ -14,7 +14,9 @@ class Article extends Model
 //    public mixed $content;
     protected $fillable = [
         'title',
-        'description',
+        'address',
+        'attendance',
+        'dateTime',
         'content',
         'updated_by'
     ];
