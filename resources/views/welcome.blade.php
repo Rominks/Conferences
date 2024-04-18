@@ -10,9 +10,7 @@
 </head>
 <body>
     <header>
-        <form action="#" method="POST">
-            <input type="text" class="datepicker">
-        </form>
+
     </header>
 
 <script type="text/javascript" src="{{ mix('js/app.js') }}"></script>
