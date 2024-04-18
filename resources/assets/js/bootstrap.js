@@ -9,7 +9,7 @@ window.axios = axios;
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
-const flatpickr = require('flatpickr');
+window.flatpickr = require('flatpickr');
 
 window.$ = window.jQuery = require('jquery');
 window.Popper = require('popper.js').default;
