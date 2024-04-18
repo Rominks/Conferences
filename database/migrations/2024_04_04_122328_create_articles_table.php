@@ -13,7 +13,10 @@ return new class extends Migration
     {
         Schema::create('articles', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
+            $table->string('title')->nullable();
+            $table->string('address')->nullable();
+            $table->integer('attendance')->default(0);
+            $table->dateTime('dateTime')->default(now());
             $table->string('content')->nullable();
             $table->timestamps();
         });
